@@ -32,7 +32,7 @@ There are two types of applications:
 The API allows you to:
 
 - Retrieve the **list of available devices and their associated measures** in your application.
-- Download **time-series data** for selected devices, measures, and time ranges (max 31 days per request).
+- Download **time-series data** for selected devices, measures, and time ranges (max 31 days per request, max 5 devices per request).
 
 ## How it Works
 
@@ -59,4 +59,3 @@ All endpoints are relative to these base URLs.
 
 👉 [Read about Authentication & Headers](authentication.md)  
 👉 [See Available Endpoints](endpoints.md)  
-👉 [Try Example Calls](examples.md)  
