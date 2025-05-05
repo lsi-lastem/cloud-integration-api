@@ -55,6 +55,15 @@ There are no login tokens or sessions — access is stateless and header-based.
 
 All endpoints are relative to these base URLs.
 
+## Permissions
+
+To use the API endpoints, the application token must have the permissions:
+- `ORG7001` (for configuration access)
+- `TMS1901` (for data access)
+
+These permissions must be configured via the cloud UI in the **Application > Access token** section for each app.
+
+
 ## Next Steps
 
 👉 [Read about Authentication & Headers](authentication.md)  
