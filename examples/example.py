@@ -9,11 +9,6 @@ if __name__ == "__main__":
     # Disable SSL warnings
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-    # Create a directory to store the CSV files
-    if not os.path.exists("data"):
-        print("Creating data directory...")
-        os.makedirs("data")
-
     # Check if the credentials file exists
     if not os.path.exists('credentials.json'):
         print("Credentials file not found. Please create a 'credentials.json' file with the required credentials.")
@@ -29,6 +24,9 @@ if __name__ == "__main__":
     APP_ID = credentials["app-id"]
     SECRET = credentials["app-secret"]
     TENANT_ID = credentials["tenant-id"]
+
+    # print credential TENANT_ID / APP_ID
+    print(f"Tenant ID: {TENANT_ID} / App ID: {APP_ID}")
 
     # Define the URLs for the API endpoints
     url_device_list = f"{BASE_URL}/api/org/integrations/configs/"
@@ -122,9 +120,18 @@ if __name__ == "__main__":
 
         # Sort the rows by timestamp
         rows = dict(sorted(rows.items()))
+
+        # final directory shoud be data/<tentant_id>/<device_uuid>
+        # Create the directory if it doesn't exist
+        final_dir = f"data/{TENANT_ID}/{uuid}"
+        os.makedirs(final_dir, exist_ok=True)
+
+        # final_file should be <final_dir>/<extraction-timestamp>.csv
+        extraction_timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
+        final_file = f"{final_dir}/{extraction_timestamp}.csv"
             
         # Create a CSV file for each device
-        with open(f"data/{uuid}.csv", "w") as f:
+        with open(final_file, "w") as f:
             # Write the header
             f.write("timestamp," + ",".join(measureKeys) + "\n")
             # Write the data
