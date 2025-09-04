@@ -4,9 +4,14 @@
 from argparse import ArgumentParser
 from json import dump
 from os import listdir, remove
+import os
 
 
 PATH_CREDENTIALS = 'credentials'
+
+
+if not os.path.exists(PATH_CREDENTIALS):
+    os.makedirs(PATH_CREDENTIALS)
 
 
 # credentials are file json with these keys:

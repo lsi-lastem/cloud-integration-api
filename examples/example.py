@@ -1,10 +1,28 @@
+from argparse import ArgumentParser
+import argparse
 import requests
 import datetime
 import json
 import os
 import urllib3
 
+
+def to_date(date_str):
+    try:
+        # parse utc date
+        return datetime.datetime.strptime(date_str, "%Y-%m-%d")
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"Not a valid date: '{date_str}'. Expected format: YYYY-MM-DD")
+
+
 if __name__ == "__main__":
+    parser = ArgumentParser(description="Example script to interact with the Cloud Integration API")
+
+    # parse optional start and end dates
+    parser.add_argument('-s', '--start', type=to_date, help="Start date in format YYYY-MM-DD", default=datetime.datetime.utcnow() - datetime.timedelta(days=5))
+    parser.add_argument('-e', '--end', type=to_date, help="End date in format YYYY-MM-DD", default=datetime.datetime.utcnow())
+
+    args = parser.parse_args()
 
     # Disable SSL warnings
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -47,16 +65,13 @@ if __name__ == "__main__":
 
     # If the request was successful, parse the JSON response
     device_list = response.json()
-
-    # Print the list of devices
-    end_time = datetime.datetime.utcnow()
-    start_time = end_time - datetime.timedelta(days=5)
+    print(f"Found {len(device_list['vss'])} devices.")
 
     # Format the start and end times in the required format
     # The format is YYYY-MM-DDTHH:MM:SS
     # Note: The time is in UTC
-    start_str = start_time.strftime("%Y-%m-%dT%H:%M:%S")
-    end_str = end_time.strftime("%Y-%m-%dT%H:%M:%S")
+    start_str = args.start.strftime("%Y-%m-%dT%H:%M:%S")
+    end_str = args.end.strftime("%Y-%m-%dT%H:%M:%S")
 
     # Select the first 5 devices from the list
     # and use the first measureKey for each device
@@ -81,7 +96,7 @@ if __name__ == "__main__":
     }
 
     # Make a POST request to retrieve the data
-    print("Fetching data...")
+    print(f"Fetching data between {start_str} and {end_str}...")
     response = requests.post(url_get_data, headers=headers, json=payload, verify=False)
 
     # Check if the request was successful
