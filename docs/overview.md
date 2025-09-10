@@ -39,7 +39,7 @@ The API allows you to:
 To ensure optimal performance and fair usage across all users, the following limits apply to API requests:
 
 - Maximum 5 stations per API call
-- Maximum 5 API calls per station
+- Maximum 5 API calls per station per hour
 - Maximum data request range: 31 consecutive days
 
 ## How it Works
