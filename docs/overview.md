@@ -32,7 +32,15 @@ There are two types of applications:
 The API allows you to:
 
 - Retrieve the **list of available devices and their associated measures** in your application.
-- Download **time-series data** for selected devices, measures, and time ranges (max 31 days per request, max 5 devices per request).
+- Download **time-series data** for selected devices, measures, and time ranges.
+
+## API limits
+
+To ensure optimal performance and fair usage across all users, the following limits apply to API requests:
+
+- Maximum 5 stations per API call
+- Maximum 5 API calls per station
+- Maximum data request range: 31 consecutive days
 
 ## How it Works
 
